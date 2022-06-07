@@ -1,0 +1,15 @@
+on: [pull_request]
+
+jobs:
+  test_job:
+    runs-on: ubuntu-latest
+    name: A job to find comment Test_Comment
+    steps:
+      - name: Find Test Comment action step
+        id: test
+        uses: UdaraSembukuttiarachchi/wait-for-comment-action@v1.2
+        with:
+          comment-to-wait: 'Test_Comment'
+      # Use the output from the `hello` step
+      - name: Get the output time
+        run: echo "The Comment was ${{ steps.id.outputs.comment_body }}"
