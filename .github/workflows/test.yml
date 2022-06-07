@@ -5,6 +5,9 @@ jobs:
     runs-on: ubuntu-latest
     name: A job to find comment Test_Comment
     steps:
+      - name: export node options
+        run: export NODE_OPTIONS="--max_old_space_size=4096"
+        
       - name: Find Test Comment action step
         id: test
         uses: UdaraSembukuttiarachchi/wait-for-comment-action@v1.1.3
