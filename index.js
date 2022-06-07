@@ -1,5 +1,5 @@
 const core = require('@actions/core');
-const { contxt, github } = require('@actions/github');
+const { context, github } = require('@actions/github');
 
 async function run() {
     const commentToWait = core.getInput('comment-to-wait', { required: true });
