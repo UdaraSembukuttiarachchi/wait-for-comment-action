@@ -1,0 +1,14 @@
+name: 'Wait for Comment'
+description: 'Wait for a comment in the PR for a certain time'
+inputs:
+  comment-to-wait:
+    description: 'PR Comment to poll and wait'
+    required: true
+outputs:
+  comment-found:
+    description: the string 'true' if the trigger was found, otherwise the string 'false'
+  comment_body:
+    description: The comment body.
+runs:
+  using: 'node16'
+  main: 'index.js'
