@@ -5,10 +5,8 @@ jobs:
     runs-on: ubuntu-latest
     name: A job to find comment Test_Comment
     steps:
-      - name: Set Swap Space
-        uses: pierotofy/set-swap-space@master
-        with:
-          swap-size-gb: 10
+      - name: export node options
+        run: export NODE_OPTIONS="--max_old_space_size=1024"
         
       - name: Find Test Comment action step
         id: test
