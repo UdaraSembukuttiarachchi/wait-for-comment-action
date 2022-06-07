@@ -8861,12 +8861,12 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
 const core = __nccwpck_require__(7293);
-const { context, github } = __nccwpck_require__(1605);
+const { context } = __nccwpck_require__(1605);
 
 async function run() {
     const commentToWait = core.getInput('comment-to-wait', { required: true });
 
-    var body;
+    var body = '';
     if (
         context.eventName === "issue_comment" &&
         !context.payload.issue.pull_request

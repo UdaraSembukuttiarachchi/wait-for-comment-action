@@ -1,10 +1,10 @@
 const core = require('@actions/core');
-const { context, github } = require('@actions/github');
+const { context } = require('@actions/github');
 
 async function run() {
     const commentToWait = core.getInput('comment-to-wait', { required: true });
 
-    var body;
+    var body = '';
     if (
         context.eventName === "issue_comment" &&
         !context.payload.issue.pull_request
