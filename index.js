@@ -1,5 +1,5 @@
 const core = require('@actions/core');
-const github = require('@actions/github');
+const { contxt, github } = require('@actions/github');
 
 async function run() {
     const commentToWait = core.getInput('comment-to-wait', { required: true });
@@ -17,11 +17,11 @@ async function run() {
     while (!body.includes(commentToWait)) {
         setTimeout(() => { console.log("Searching for " + commentToWait); }, 10000);
         body =
-        (context.eventName === "issue_comment"
-            // For comments on pull requests
-            ? context.payload.comment.body
-            // For the initial pull request description
-            : context.payload.pull_request.body) || '';
+            (context.eventName === "issue_comment"
+                // For comments on pull requests
+                ? context.payload.comment.body
+                // For the initial pull request description
+                : context.payload.pull_request.body) || '';
     }
 
     core.setOutput('comment_body', body);

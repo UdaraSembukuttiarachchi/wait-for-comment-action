@@ -8861,7 +8861,7 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
 const core = __nccwpck_require__(7293);
-const github = __nccwpck_require__(1605);
+const { contxt, github } = __nccwpck_require__(1605);
 
 async function run() {
     const commentToWait = core.getInput('comment-to-wait', { required: true });
@@ -8879,11 +8879,11 @@ async function run() {
     while (!body.includes(commentToWait)) {
         setTimeout(() => { console.log("Searching for " + commentToWait); }, 10000);
         body =
-        (context.eventName === "issue_comment"
-            // For comments on pull requests
-            ? context.payload.comment.body
-            // For the initial pull request description
-            : context.payload.pull_request.body) || '';
+            (context.eventName === "issue_comment"
+                // For comments on pull requests
+                ? context.payload.comment.body
+                // For the initial pull request description
+                : context.payload.pull_request.body) || '';
     }
 
     core.setOutput('comment_body', body);
