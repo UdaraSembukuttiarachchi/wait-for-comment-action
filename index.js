@@ -10,19 +10,37 @@ async function run() {
         !context.payload.issue.pull_request
     ) {
         // not a pull-request comment, aborting
-        core.setOutput("triggered", "false");
+        core.setOutput("comment-found", "false");
         return;
     }
 
-    while (!body.includes(commentToWait)) {
+    // while (!body.includes(commentToWait)) {
+    //     setTimeout(() => { console.log("Searching for " + commentToWait); }, 10000);
+    //     body =
+    //         (context.eventName === "issue_comment"
+    //             // For comments on pull requests
+    //             ? context.payload.comment.body
+    //             // For the initial pull request description
+    //             : context.payload.pull_request.body) || '';
+    // }
+
+    let now = new Date().getTime()
+    const deadline = now + 6*60*1000 //one minute
+
+    Loop:
+    while (now <= deadline) {
+        console.log('retreiving comments...')
+        body = await context.payload.comment.body;
+        if(body.includes(commentToWait)) break Loop;
+
+        console.log('Comment not found. Waiting 10s...')
         setTimeout(() => { console.log("Searching for " + commentToWait); }, 10000);
-        body =
-            (context.eventName === "issue_comment"
-                // For comments on pull requests
-                ? context.payload.comment.body
-                // For the initial pull request description
-                : context.payload.pull_request.body) || '';
+        now = new Date().getTime()
     }
+
+    console.log('Restrived data:'+ body)
+    
+
 
     core.setOutput('comment_body', body);
 
