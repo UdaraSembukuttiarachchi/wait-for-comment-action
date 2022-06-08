@@ -1,4 +1,22 @@
 {
+  "name": "wait-for-comment-action",
+  "version": "1.0.0",
+  "description": "A github action to wait for a certain PR comments",
+  "main": "index.js",
+  "scripts": {
+    "build": "ncc build index.js --license licenses.txt"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://UdaraSembukuttiarachchi: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@github.com/UdaraSembukuttiarachchi/wait-for-comment-action.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/UdaraSembukuttiarachchi/wait-for-comment-action/issues"
+  },
+  "homepage": "https://github.com/UdaraSembukuttiarachchi/wait-for-comment-action#readme",
   "dependencies": {
     "@actions/core": "^1.8.2",
     "@actions/github": "^5.0.3"

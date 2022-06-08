@@ -5,14 +5,11 @@ jobs:
     runs-on: ubuntu-latest
     name: A job to find comment Test_Comment
     steps:
-      - name: export node options
-        run: export NODE_OPTIONS="--max_old_space_size=1024"
-        
       - name: Find Test Comment action step
         id: test
         uses: UdaraSembukuttiarachchi/wait-for-comment-action@main
         with:
           comment-to-wait: 'Test_Comment'
       # Use the output from the `hello` step
-      - name: Get the output time
+      - name: Get the output
         run: echo "The Comment was ${{ steps.id.outputs.comment_body }}"
