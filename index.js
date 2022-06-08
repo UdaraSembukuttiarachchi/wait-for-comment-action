@@ -1,16 +1,16 @@
-import { getInput, setOutput, setFailed } from '@actions/core';
-import { eventName, payload } from '@actions/github';
+const core = require("@actions/core");
+const { context } = require("@actions/github");
 
 async function run() {
-    const commentToWait = getInput('comment-to-wait', { required: true });
+    const commentToWait = core.getInput('comment-to-wait', { required: true });
     var body = '';
 
     if (
-        eventName === "issue_comment" &&
-        !payload.issue.pull_request
+        context.eventName === "issue_comment" &&
+        !context.payload.issue.pull_request
     ) {
         // not a pull-request comment, aborting
-        setOutput("comment-found", "false");
+        core.setOutput("comment-found", "false");
         return;
     }
 
@@ -25,34 +25,36 @@ async function run() {
     // }
 
     let now = new Date().getTime()
-    const deadline = now + 6*60*1000 //one minute
+    const deadline = now + 6 * 60 * 1000 //one minute
 
     Loop:
     while (now <= deadline) {
         console.log('retreiving comments...')
         body =
-            (eventName === "issue_comment"
+            (context.eventName === "issue_comment"
                 // For comments on pull requests
-                ? payload.comment.body
+                ? context.payload.comment.body
                 // For the initial pull request description
-                : payload.pull_request.body) || '';
-        if(body.includes(commentToWait)) break Loop;
+                : context.payload.pull_request.body) || '';
+        core.setOutput('comment_body', body);
+
+        if (body.includes(commentToWait)) break Loop;
 
         console.log('Comment not found. Waiting 10s...')
         setTimeout(() => { console.log("Searching for " + commentToWait); }, 10000);
         now = new Date().getTime()
     }
 
-    console.log('Restrived data:'+ body)
-    
+    console.log('Restrived data:' + body)
 
 
-    setOutput('comment_body', body);
 
-    setOutput("comment-found", "true");
+    core.setOutput('comment_body', body);
+
+    core.setOutput("comment-found", "true");
 }
 
 run().catch(err => {
     console.error(err);
-    setFailed("Unexpected error");
+    core.setFailed("Unexpected error");
 });
