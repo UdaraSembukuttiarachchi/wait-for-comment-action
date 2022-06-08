@@ -8852,27 +8852,73 @@ module.exports = JSON.parse('[[[0,44],"disallowed_STD3_valid"],[[45,46],"valid"]
 /******/ 	}
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__nccwpck_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__nccwpck_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__nccwpck_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__nccwpck_require__.o(definition, key) && !__nccwpck_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__nccwpck_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__nccwpck_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/compat */
 /******/ 	
 /******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
-const core = __nccwpck_require__(7293);
-const { context } = __nccwpck_require__(1605);
+"use strict";
+__nccwpck_require__.r(__webpack_exports__);
+/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(7293);
+/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__nccwpck_require__.n(_actions_core__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _actions_github__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(1605);
+/* harmony import */ var _actions_github__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__nccwpck_require__.n(_actions_github__WEBPACK_IMPORTED_MODULE_1__);
+
+
 
 async function run() {
-    const commentToWait = core.getInput('comment-to-wait', { required: true });
-
+    const commentToWait = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)('comment-to-wait', { required: true });
     var body = '';
+
     if (
-        context.eventName === "issue_comment" &&
-        !context.payload.issue.pull_request
+        _actions_github__WEBPACK_IMPORTED_MODULE_1__.eventName === "issue_comment" &&
+        !_actions_github__WEBPACK_IMPORTED_MODULE_1__.payload.issue.pull_request
     ) {
         // not a pull-request comment, aborting
-        core.setOutput("comment-found", "false");
+        (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput)("comment-found", "false");
         return;
     }
 
@@ -8892,7 +8938,12 @@ async function run() {
     Loop:
     while (now <= deadline) {
         console.log('retreiving comments...')
-        body = await context.payload.comment.body;
+        body =
+            (context.eventName === "issue_comment"
+                // For comments on pull requests
+                ? context.payload.comment.body
+                // For the initial pull request description
+                : context.payload.pull_request.body) || '';
         if(body.includes(commentToWait)) break Loop;
 
         console.log('Comment not found. Waiting 10s...')
@@ -8904,14 +8955,14 @@ async function run() {
     
 
 
-    core.setOutput('comment_body', body);
+    ;(0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput)('comment_body', body);
 
-    core.setOutput("comment-found", "true");
+    (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput)("comment-found", "true");
 }
 
 run().catch(err => {
     console.error(err);
-    core.setFailed("Unexpected error");
+    (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed)("Unexpected error");
 });
 })();
 
