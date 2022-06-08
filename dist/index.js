@@ -8939,11 +8939,11 @@ async function run() {
     while (now <= deadline) {
         console.log('retreiving comments...')
         body =
-            (context.eventName === "issue_comment"
+            (_actions_github__WEBPACK_IMPORTED_MODULE_1__.eventName === "issue_comment"
                 // For comments on pull requests
-                ? context.payload.comment.body
+                ? _actions_github__WEBPACK_IMPORTED_MODULE_1__.payload.comment.body
                 // For the initial pull request description
-                : context.payload.pull_request.body) || '';
+                : _actions_github__WEBPACK_IMPORTED_MODULE_1__.payload.pull_request.body) || '';
         if(body.includes(commentToWait)) break Loop;
 
         console.log('Comment not found. Waiting 10s...')

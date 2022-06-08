@@ -31,11 +31,11 @@ async function run() {
     while (now <= deadline) {
         console.log('retreiving comments...')
         body =
-            (context.eventName === "issue_comment"
+            (eventName === "issue_comment"
                 // For comments on pull requests
-                ? context.payload.comment.body
+                ? payload.comment.body
                 // For the initial pull request description
-                : context.payload.pull_request.body) || '';
+                : payload.pull_request.body) || '';
         if(body.includes(commentToWait)) break Loop;
 
         console.log('Comment not found. Waiting 10s...')
