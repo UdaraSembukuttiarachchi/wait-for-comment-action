@@ -3,6 +3,7 @@ const { context } = require("@actions/github");
 
 async function run() {
     const commentToWait = core.getInput('comment-to-wait', { required: true });
+    console.log('comment-to wait: ' + commentToWait)
     var body = '';
 
     if (
@@ -52,6 +53,8 @@ async function run() {
     core.setOutput('comment_body', body);
 
     core.setOutput("comment-found", "true");
+
+    return 0;
 }
 
 run().catch(err => {
