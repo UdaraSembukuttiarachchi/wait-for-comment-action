@@ -1,16 +1,16 @@
-const core = require('@actions/core');
-const { context } = require('@actions/github');
+import { getInput, setOutput, setFailed } from '@actions/core';
+import { eventName, payload } from '@actions/github';
 
 async function run() {
-    const commentToWait = core.getInput('comment-to-wait', { required: true });
-
+    const commentToWait = getInput('comment-to-wait', { required: true });
     var body = '';
+
     if (
-        context.eventName === "issue_comment" &&
-        !context.payload.issue.pull_request
+        eventName === "issue_comment" &&
+        !payload.issue.pull_request
     ) {
         // not a pull-request comment, aborting
-        core.setOutput("comment-found", "false");
+        setOutput("comment-found", "false");
         return;
     }
 
@@ -30,7 +30,7 @@ async function run() {
     Loop:
     while (now <= deadline) {
         console.log('retreiving comments...')
-        body = await context.payload.comment.body;
+        body = await payload.comment.body;
         if(body.includes(commentToWait)) break Loop;
 
         console.log('Comment not found. Waiting 10s...')
@@ -42,12 +42,12 @@ async function run() {
     
 
 
-    core.setOutput('comment_body', body);
+    setOutput('comment_body', body);
 
-    core.setOutput("comment-found", "true");
+    setOutput("comment-found", "true");
 }
 
 run().catch(err => {
     console.error(err);
-    core.setFailed("Unexpected error");
+    setFailed("Unexpected error");
 });
